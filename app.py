@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template
+from flask import Flask, redirect, url_for, render_template, request
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager, UserMixin, login_user, logout_user,\
     current_user
@@ -10,13 +10,9 @@ app.config['SECRET_KEY'] = 'top secret!'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['OAUTH_CREDENTIALS'] = {
     'facebook': {
-        'id': '470154729788964',
-        'secret': '010cc08bd4f51e34f3f3e684fbdea8a7'
+        'id': '##',
+        'secret': '##'
     },
-    'twitter': {
-        'id': '3RzWQclolxWZIMq5LJqzRZPTl',
-        'secret': 'm9TEd58DSEtRrZHpz2EjrV9AhsBRxKMo8m3kuIZj3zLwzwIimt'
-    }
 }
 
 db = SQLAlchemy(app)
@@ -30,7 +26,21 @@ class User(UserMixin, db.Model):
     social_id = db.Column(db.String(64), nullable=False, unique=True)
     nickname = db.Column(db.String(64), nullable=False)
     email = db.Column(db.String(64), nullable=True)
+    players = db.relationship('Player', backref='user',
+                                lazy='dynamic')
 
+
+class Player(db.Model):
+    __tablename__ = 'players'
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(64), nullable=False, unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+@app.route('/add_player', methods=['GET', 'POST'])
+def add_player():
+    print(request.form['player'])
+    print("Adding player")
+    return render_template('index.html')
 
 @lm.user_loader
 def load_user(id):
@@ -68,6 +78,10 @@ def oauth_callback(provider):
     user = User.query.filter_by(social_id=social_id).first()
     if not user:
         user = User(social_id=social_id, nickname=username, email=email)
+        # player = Player()
+        # player.name = "Tiger"
+        # player.users = [user.id]
+        # user.players.append(player)
         db.session.add(user)
         db.session.commit()
     login_user(user, True)
@@ -75,5 +89,5 @@ def oauth_callback(provider):
 
 
 if __name__ == '__main__':
-    db.create_all()
+    db.create_all() 
     app.run(debug=True)
