@@ -47,9 +47,8 @@ def home():
     user = load_user(current_user.get_id())
     players = Player.query.filter_by(user_id = user.id) 
     #earnings
-    earnings = [player.salary.strip("$ ").replace(',','') for player in players]
-    print(earnings)
-    return render_template('home.html', active = "home", players = players)
+    earnings = [float(player.salary.strip("$ ").replace(',','')) for player in players]
+    return render_template('home.html', active = "home", players = players, earnings = sum(earnings))
     
 def add_player_to_users_team(user, player_name):
     players = Player.query.filter_by(name = player_name)
