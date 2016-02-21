@@ -1,0 +1,14 @@
+{% extends "base.html" %} <!-- Establishes link between the two templates--> 
+{% block content %}
+	<br>
+	{% if players %}
+		<p>My Team</p>
+		<ul>
+		{% for player in players %}
+			<li>{{ player }}</li>
+		{% endfor %}
+		</ul>
+	{% else %}
+		<p>No players on your team yet!</p>
+	{% endif %}
+{% endblock %}

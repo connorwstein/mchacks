@@ -1,0 +1,20 @@
+{% extends "base.html" %} <!-- Establishes link between the two templates--> 
+{% block content %}
+ 	<br>
+ 	<form action="/add_players" method="post">
+		{% for player in players %}
+			<p style="margin-left: 20px"><input type="checkbox" name="{{player}}"> {{ player }}<br>
+		{% endfor %}
+		<br>
+		<input type="submit" name="Submit">
+	</form>
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+		<ul class=flashes>
+			{% for message in messages %}
+			  <li>{{ message }}</li>
+			{% endfor %}
+		</ul>
+		{% endif %}
+	{% endwith %}
+{% endblock %}
