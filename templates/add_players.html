@@ -3,7 +3,7 @@
  	<br>
  	<form action="/add_players" method="post">
 		{% for player in players %}
-			<p style="margin-left: 20px"><input type="checkbox" name="{{player}}"> {{ player }}<br>
+			<p style="margin-left: 20px"><input type="checkbox" name="{{ player.name }}"> {{ player.name }} {{ player.salary }}<br>
 		{% endfor %}
 		<br>
 		<input type="submit" name="Submit">

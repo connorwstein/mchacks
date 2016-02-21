@@ -1,14 +1,14 @@
 __author__ = 'Bernie'
-import urllib2
+import urllib2, os
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
+playerDict={}
 
 def get_player_data():
-    driver = webdriver.PhantomJS()
+    driver = webdriver.PhantomJS(service_args=["--webdriver-loglevel=NONE"])
     driver.get("http://www.cbssports.com/golf/leaderboard/pga-tour/1186070/hyundai-tournament-of-champions")
-
-    playerDict={}
+    
     html = driver.page_source
     parsed_html = BeautifulSoup(html,'html.parser')
     tournaments = parsed_html.find("tbody", {"id": "LeaderboardSchedule"})
@@ -25,7 +25,8 @@ def get_player_data():
         earn =items[5]
         #print(name.find("a").getText()+","+rank.find("dd").getText()+","+earn.find("dt").getText())
         tup=(rank.find("dd").getText(),earn.find("dt").getText())
-        playerDict[name.find("a").getText().split(" PC",1)[0]]=tup
+        if(tup[1] != None and tup[1] != ""):# must have a salary
+            playerDict[name.find("a").getText().split(" PC",1)[0]]=tup
 
     for row in row2:
         items=row.findAll("td")
@@ -34,10 +35,17 @@ def get_player_data():
         earn =items[5]
         #print(name.find("a").getText()+","+rank.find("dd").getText()+","+earn.find("dt").getText())
         tup=(rank.find("dd").getText(),earn.find("dt").getText())
-        playerDict[name.find("a").getText().split(" PC",1)[0]]=tup
+        if(tup[1] != None and tup[1] != ""): #must have a salary
+            playerDict[name.find("a").getText().split(" PC",1)[0]]=tup
+    
+    os.system("pkill phantomjs") # for some reason driver.quit() doesnt kill the process
 
+    
+def get_player_names():
     return playerDict.keys()
 
+def get_player_salaries():
+    return [playerDict[player][1] for player in playerDict]   
 
 #print(playerDict)
 #

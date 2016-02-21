@@ -5,7 +5,7 @@
 		<p>My Team</p>
 		<ul>
 		{% for player in players %}
-			<li>{{ player }}</li>
+			<li>{{ player.name }} {{ player.salary }}</li>
 		{% endfor %}
 		</ul>
 	{% else %}
