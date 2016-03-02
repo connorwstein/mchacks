@@ -1,15 +1,44 @@
 {% extends "base.html" %} <!-- Establishes link between the two templates--> 
 {% block content %}
+	<div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+            <li><a href="{{url_for('add_players')}}">Add Player</a></li>
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Analytics</a></li>
+            <li><a href="#">Export</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Dashboard</h1>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Player</th>
+                  <th>Salary</th>
+                </tr>
+              </thead>
+              <tbody>
+              	{% if players %}
+					{% for player in players %}
+						<tr>
+							<td>{{ player.name }}</td>
+							<td>{{ player.salary }}</td>
+						</tr>
+					{% endfor %}
+					<p> Total Earnings: $ {{ earnings }}</p>
+				{% else %}
+					<p>No players on your team yet!</p>
+				{% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
 	<br>
-	{% if players %}
-		<p>My Team</p>
-		<ul>
-		{% for player in players %}
-			<li>{{ player.name }} {{ player.salary }}</li>
-		{% endfor %}
-		</ul>
-		<p> Total Earnings: $ {{ earnings }}</p>
-	{% else %}
-		<p>No players on your team yet!</p>
-	{% endif %}
+	
 {% endblock %}
