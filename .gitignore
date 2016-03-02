@@ -1,0 +1,16 @@
+# virtual environment
+flask/
+
+# database
+*.sqlite
+
+# API keys
+keys.py
+
+# logs from phantom browser
+*.log
+
+# python compiled
+*.pyc
+
+

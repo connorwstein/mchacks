@@ -1,29 +1,23 @@
 <html>
     <head>
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> 
-
-        <!-- jQuery library -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <!-- Latest compiled JavaScript -->
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <title>Golf Pool Login</title>
-        <center>
-            <br>
-            <br>
-            <p>
-                <b>Golf Pool Login</b>
-            </p>
-        </center>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- BOOTSTRAP STUFF -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
     </head>
     <body>
-        <center>
         {% for message in get_flashed_messages() %}
             <p><b>Error</b>: {{ message }}</p>
         {% endfor %}
-        <p>
-            <a class="btn btn-primary" href="{{ url_for('oauth_authorize', provider='facebook') }}">Login with Facebook</a>
-        </p>
-        </center>
+        <p class="title">Fantasy Golf</p>
+        <div class="login">        
+            <a class="button" href="{{ url_for('oauth_authorize', provider='facebook') }}">Login with Facebook</a>
+        </div>
     </body>
+
 </html>

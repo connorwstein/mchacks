@@ -3,14 +3,15 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager, UserMixin, login_user, logout_user, current_user
 from oauth import OAuthSignIn
 from golfparser import get_player_data, get_player_names, get_player_salaries
+from keys import ID, SECRET
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'top secret!'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['OAUTH_CREDENTIALS'] = {
     'facebook': {
-        'id': '##',
-        'secret': '##'
+        'id': ID,
+        'secret': SECRET
     },
 }
 
